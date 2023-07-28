@@ -1,6 +1,7 @@
 import * as React from 'react';
 import apiFetcher from '../../utilities/apiFetcher';
 import Card from '../../components/Card/Card';
+import Pagination from '../../components/Pagination/Pagination';
 import { useEffect, useState } from 'react';
 
 function AnimeListing() {
@@ -19,6 +20,7 @@ function AnimeListing() {
 	  media (id: $id, search: $search) {
 		id
 		bannerImage
+		description
 		title {
 		  english
 		}
@@ -28,9 +30,8 @@ function AnimeListing() {
   `;
 
   const variables = {
-    search: 'Fate/Zero',
     page: 1,
-    perPage: 20
+    perPage: 10
   };
 
   function handleData(data) {
@@ -51,11 +52,20 @@ function AnimeListing() {
     populateData();
   }, []);
 
+  async function changeCurrentActivePage(pageNumber: number) {
+    await apiFetcher(
+      query,
+      { ...variables, page: pageNumber },
+      handleData,
+      handleError
+    );
+  }
+
   return (
     <>
       <h2>Anime Listing</h2>
       <Card items={animeList} />
-      {/* {animeList && animeList.length > 0 && animeList[0].bannerImage} */}
+      <Pagination currentActivePageNumberChanged={changeCurrentActivePage} />
     </>
   );
 }
