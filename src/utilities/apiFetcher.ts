@@ -2,6 +2,7 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
 export default async function apiFetcher(
   payload: any,
+  variables: any,
   handleSuccess: any,
   handleError: any,
   uri: string = 'https://graphql.anilist.co/'
@@ -17,7 +18,8 @@ export default async function apiFetcher(
     .query({
       query: gql`
         ${query}
-      `
+      `,
+      variables
     })
     .then(handleSuccess)
     .catch(handleError);
