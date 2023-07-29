@@ -10,6 +10,7 @@ export const animeCollectionSlice = createSlice({
       state,
       action: {
         payload: {
+          id: string;
           name: string;
           animeList: [{ animeDetail: Record<string, any> }];
         };
@@ -26,7 +27,7 @@ export const animeCollectionSlice = createSlice({
     ) => {
       const payload = action.payload;
       const foundCollectionIndex = state.collections.findIndex(
-        (collection) => collection.name === payload
+        (collection) => collection.id === payload
       );
 
       if (foundCollectionIndex > -1)
@@ -35,12 +36,12 @@ export const animeCollectionSlice = createSlice({
     addAnime: (
       state,
       action: {
-        payload: { animeDetail: Record<string, any>; collectionName: string };
+        payload: { animeDetail: Record<string, any>; collectionId: string };
       }
     ) => {
       const payload = action.payload;
       const foundCollectionIndex = state.collections.findIndex(
-        (collection) => collection.name === payload.collectionName
+        (collection) => collection.id === payload.collectionId
       );
 
       if (foundCollectionIndex > -1) {
@@ -52,12 +53,12 @@ export const animeCollectionSlice = createSlice({
     removeAnime: (
       state,
       action: {
-        payload: { animeId: string; collectionName: string };
+        payload: { animeId: string; collectionId: string };
       }
     ) => {
       const payload = action.payload;
       const foundCollectionIndex = state.collections.findIndex(
-        (collection) => collection.name === payload.collectionName
+        (collection) => collection.id === payload.collectionId
       );
 
       if (foundCollectionIndex > -1) {

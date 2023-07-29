@@ -20,6 +20,7 @@ export default function Counter() {
           onClick={() =>
             dispatch(
               addCollection({
+                id: 'col1',
                 name: 'collection1',
                 animeList: [{ id: '1', name: 'sss' }]
               })
@@ -30,7 +31,7 @@ export default function Counter() {
         </button>
         <button
           aria-label="Increment value"
-          onClick={() => dispatch(removeCollection('collection1'))}
+          onClick={() => dispatch(removeCollection('col1'))}
         >
           Remove Collection
         </button>
@@ -41,7 +42,7 @@ export default function Counter() {
             dispatch(
               addAnime({
                 animeDetail: { id: '2', name: 'Anime 2' },
-                collectionName: 'collection1'
+                collectionId: 'col1'
               })
             )
           }
@@ -52,9 +53,7 @@ export default function Counter() {
         <button
           aria-label="Remove Anime"
           onClick={() =>
-            dispatch(
-              removeAnime({ animeId: '2', collectionName: 'collection1' })
-            )
+            dispatch(removeAnime({ animeId: '2', collectionId: 'col1' }))
           }
         >
           Remove Anime
