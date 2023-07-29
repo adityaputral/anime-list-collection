@@ -1,8 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { decrement, increment } from './../../store/counterSlice';
+import {
+  addCollection,
+  removeCollection,
+  addAnime,
+  removeAnime
+} from '../../store/animeCollections';
 
 export default function Counter() {
-  const count = useSelector((state) => state.counter.value);
+  const collections = useSelector(
+    (state) => state.animeCollections.collections
+  );
   const dispatch = useDispatch();
 
   return (
@@ -10,16 +17,47 @@ export default function Counter() {
       <div>
         <button
           aria-label="Increment value"
-          onClick={() => dispatch(increment())}
+          onClick={() =>
+            dispatch(
+              addCollection({
+                name: 'collection1',
+                animeList: [{ id: '1', name: 'sss' }]
+              })
+            )
+          }
         >
-          Increment
+          Add Collection
         </button>
-        <span>{count}</span>
         <button
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
+          aria-label="Increment value"
+          onClick={() => dispatch(removeCollection('collection1'))}
         >
-          Decrement
+          Remove Collection
+        </button>
+
+        <button
+          aria-label="Add Anime"
+          onClick={() =>
+            dispatch(
+              addAnime({
+                animeDetail: { id: '2', name: 'Anime 2' },
+                collectionName: 'collection1'
+              })
+            )
+          }
+        >
+          Add Anime
+        </button>
+
+        <button
+          aria-label="Remove Anime"
+          onClick={() =>
+            dispatch(
+              removeAnime({ animeId: '2', collectionName: 'collection1' })
+            )
+          }
+        >
+          Remove Anime
         </button>
       </div>
     </div>

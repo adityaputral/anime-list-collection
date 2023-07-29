@@ -10,7 +10,7 @@ import {
 } from 'redux-persist';
 
 import storage from 'redux-persist/lib/storage';
-import counterReducer from './counterSlice';
+import animeCollectionsReducer from './animeCollections';
 
 const persistConfig = {
   key: 'root',
@@ -20,7 +20,7 @@ const persistConfig = {
 
 export default configureStore({
   reducer: {
-    counter: persistReducer(persistConfig, counterReducer)
+    animeCollections: persistReducer(persistConfig, animeCollectionsReducer)
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

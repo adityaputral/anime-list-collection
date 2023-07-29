@@ -1,0 +1,85 @@
+import { createSlice, current } from '@reduxjs/toolkit';
+
+export const animeCollectionSlice = createSlice({
+  name: 'animeCollections',
+  initialState: {
+    collections: []
+  },
+  reducers: {
+    addCollection: (
+      state,
+      action: {
+        payload: {
+          name: string;
+          animeList: [{ animeDetail: Record<string, any> }];
+        };
+      }
+    ) => {
+      const payload = action.payload;
+      state.collections.push(payload);
+    },
+    removeCollection: (
+      state,
+      action: {
+        payload: string;
+      }
+    ) => {
+      const payload = action.payload;
+      const foundCollectionIndex = state.collections.findIndex(
+        (collection) => collection.name === payload
+      );
+
+      if (foundCollectionIndex > -1)
+        state.collections.splice(foundCollectionIndex, 1);
+    },
+    addAnime: (
+      state,
+      action: {
+        payload: { animeDetail: Record<string, any>; collectionName: string };
+      }
+    ) => {
+      const payload = action.payload;
+      const foundCollectionIndex = state.collections.findIndex(
+        (collection) => collection.name === payload.collectionName
+      );
+
+      if (foundCollectionIndex > -1) {
+        state.collections[foundCollectionIndex].animeList.push(
+          payload.animeDetail
+        );
+      }
+    },
+    removeAnime: (
+      state,
+      action: {
+        payload: { animeId: string; collectionName: string };
+      }
+    ) => {
+      const payload = action.payload;
+      const foundCollectionIndex = state.collections.findIndex(
+        (collection) => collection.name === payload.collectionName
+      );
+
+      if (foundCollectionIndex > -1) {
+        const animeListUnderTheCollection =
+          state.collections[foundCollectionIndex].animeList;
+        const foundAnimeIndex = animeListUnderTheCollection.findIndex(
+          (animeItem) => animeItem.id === payload.animeId
+        );
+
+        if (foundAnimeIndex > -1) {
+          state.collections[foundCollectionIndex].animeList.splice(
+            foundAnimeIndex,
+            1
+          );
+        }
+      }
+    }
+  }
+});
+
+// Action creators are generated for each case reducer function
+export const { addAnime, removeAnime, addCollection, removeCollection } =
+  animeCollectionSlice.actions;
+
+export default animeCollectionSlice.reducer;
