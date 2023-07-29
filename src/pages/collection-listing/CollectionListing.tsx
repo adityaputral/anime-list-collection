@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   addCollection,
   removeCollection,
+  editCollection,
   addAnime,
   removeAnime
 } from '../../store/animeCollections';
@@ -34,6 +35,20 @@ export default function Counter() {
           onClick={() => dispatch(removeCollection('col1'))}
         >
           Remove Collection
+        </button>
+
+        <button
+          aria-label="Increment value"
+          onClick={() =>
+            dispatch(
+              editCollection({
+                collectionId: 'col1',
+                name: 'collection 1 edited'
+              })
+            )
+          }
+        >
+          Edit Collection
         </button>
 
         <button

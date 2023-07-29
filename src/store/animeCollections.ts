@@ -33,6 +33,20 @@ export const animeCollectionSlice = createSlice({
       if (foundCollectionIndex > -1)
         state.collections.splice(foundCollectionIndex, 1);
     },
+    editCollection: (
+      state,
+      action: {
+        payload: { collectionId: string; name: string };
+      }
+    ) => {
+      const payload = action.payload;
+      const foundCollectionIndex = state.collections.findIndex(
+        (collection) => collection.id === payload.collectionId
+      );
+
+      if (foundCollectionIndex > -1)
+        state.collections[foundCollectionIndex].name = payload.name;
+    },
     addAnime: (
       state,
       action: {
@@ -80,7 +94,12 @@ export const animeCollectionSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addAnime, removeAnime, addCollection, removeCollection } =
-  animeCollectionSlice.actions;
+export const {
+  addAnime,
+  removeAnime,
+  addCollection,
+  removeCollection,
+  editCollection
+} = animeCollectionSlice.actions;
 
 export default animeCollectionSlice.reducer;
