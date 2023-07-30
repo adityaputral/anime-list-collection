@@ -1,12 +1,16 @@
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 import apiFetcher from '../../utilities/apiFetcher';
+import { addAnime } from '../../store/animeCollections';
 
 function AnimeDetail() {
   const [animeDetail, setAnimeDetail] = useState({});
   const { animeId } = useParams();
+  const dispatch = useDispatch();
 
   const query = `
   query ($id: Int) { 
@@ -32,6 +36,15 @@ function AnimeDetail() {
     console.error(error);
   }
 
+  function addToCollection(collectionName: string) {
+    dispatch(
+      addAnime({
+        animeDetail: animeDetail,
+        collectionId: 'col1'
+      })
+    );
+  }
+
   useEffect(() => {
     async function populateData() {
       await apiFetcher(query, { id: animeId }, handleData, handleError);
@@ -54,6 +67,9 @@ function AnimeDetail() {
       {animeDetail.season}
       <br />
       {animeDetail.genres?.toString()}
+
+      <br />
+      <Button onClick={addToCollection}>Add Anime To Collection</Button>
     </>
   );
 }
