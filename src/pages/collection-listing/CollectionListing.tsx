@@ -38,9 +38,7 @@ export default function Counter() {
                   <CardActionArea>
                     <Card
                       sx={{ height: '100%' }}
-                      onClick={() =>
-                        navigate(`collection-list/${collection.id}/detail`)
-                      }
+                      onClick={() => navigate(`${collection.id}/detail`)}
                     >
                       <CardMedia
                         sx={{ height: 140 }}
@@ -73,7 +71,7 @@ export default function Counter() {
               addCollection({
                 id: 'col1',
                 name: 'collection1',
-                animeList: [{ id: '1', name: 'sss' }]
+                animeList: []
               })
             )
           }
