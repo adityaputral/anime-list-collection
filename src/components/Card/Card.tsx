@@ -8,9 +8,10 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 
-const Cards = ({ items }) => {
+const Cards = ({ items, deleteFn }) => {
   const navigate = useNavigate();
 
   function goToDetail(cardItem: Record<string, any>) {
@@ -30,7 +31,7 @@ const Cards = ({ items }) => {
             return (
               <>
                 <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
-                  <Card sx={{ height: '100%' }}>
+                  <Card sx={{ height: '100%' }} key={i}>
                     <CardHeader
                       action={
                         <>
@@ -38,11 +39,20 @@ const Cards = ({ items }) => {
                             <Checkbox />
                           </IconButton>
 
-                          <IconButton aria-label="settings">
+                          <IconButton aria-label="detail">
                             <OpenInNewIcon
                               onClick={() => goToDetail(cardItem)}
                             />
                           </IconButton>
+
+                          {deleteFn && (
+                            <IconButton
+                              aria-label="delete"
+                              title="Delete from collection"
+                            >
+                              <DeleteIcon onClick={() => deleteFn(cardItem)} />
+                            </IconButton>
+                          )}
                         </>
                       }
                       subheader={cardItem.startDate}
