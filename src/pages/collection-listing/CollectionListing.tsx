@@ -48,13 +48,23 @@ export default function Counter() {
 
   const [open, setOpen] = useState(false);
   function handleOpen(collectionData: { name: string; id: string }): void {
-    {
-      setOpen(true);
-      setCollectionTitle(collectionData);
-    }
+    setOpen(true);
+    setCollectionTitle(collectionData);
   }
   function handleClose(): void {
     setOpen(false);
+  }
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  function deleteConfirmation(collectionData: {
+    name: string;
+    id: string;
+  }): void {
+    setOpenDeleteModal(true);
+    setCollectionTitle(collectionData);
+  }
+  function handleDeleteModalClose(): void {
+    setOpenDeleteModal(false);
   }
 
   const style = {
@@ -65,7 +75,8 @@ export default function Counter() {
     width: 400,
     bgcolor: 'background.paper',
     boxShadow: 24,
-    p: 4
+    p: 4,
+    textAlign: 'center'
   };
 
   return (
@@ -97,7 +108,10 @@ export default function Counter() {
                           >
                             <DeleteIcon
                               onClick={() =>
-                                dispatch(removeCollection(collection.id))
+                                deleteConfirmation({
+                                  name: collection.name,
+                                  id: collection.id
+                                })
                               }
                             />
                           </IconButton>
@@ -180,6 +194,41 @@ export default function Counter() {
               Add
             </Button>
           </Stack>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={openDeleteModal}
+        onClose={handleDeleteModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Stack component="form" spacing={2} sx={{ textAlign: 'center' }}>
+            <p>
+              Are you sure you want to remove{' '}
+              <strong>{collectionTitle.name}</strong> from the collection?
+            </p>
+          </Stack>
+          <Button
+            onClick={() => {
+              dispatch(removeCollection(collectionTitle.id));
+              setCollectionTitle({ name: '', id: '' });
+              handleDeleteModalClose();
+            }}
+          >
+            Yes
+          </Button>
+
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              handleDeleteModalClose();
+            }}
+          >
+            No
+          </Button>
         </Box>
       </Modal>
       {/* <div>
