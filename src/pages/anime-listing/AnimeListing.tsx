@@ -2,6 +2,9 @@ import * as React from 'react';
 import apiFetcher from '../../utilities/apiFetcher';
 import Card from '../../components/Card/Card';
 import Pagination from '../../components/Pagination/Pagination';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 import { IAnimeListingResponse } from './AnimeListing';
 
 import { useEffect, useState } from 'react';
@@ -23,6 +26,7 @@ function AnimeListing() {
 		id
 		bannerImage
 		description
+		genres
 		title {
 		  english
 		}
@@ -37,14 +41,20 @@ function AnimeListing() {
   };
 
   function handleData(data: { data: IAnimeListingResponse }): void {
-    console.log(data.data.Media);
     setAnimeList([...data.data.Page.media]);
   }
 
   function handleError(error: unknown): void {
-    alert('Error, check console');
     console.error(error);
   }
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const handleClose = () => {
+    setIsLoading(false);
+  };
+  const handleOpen = () => {
+    setIsLoading(true);
+  };
 
   useEffect(() => {
     async function populateData() {
@@ -52,20 +62,32 @@ function AnimeListing() {
     }
 
     populateData();
+    handleClose();
   }, []);
 
   async function changeCurrentActivePage(pageNumber: number): Promise<void> {
+    handleOpen();
     await apiFetcher(
       query,
       { ...variables, page: pageNumber },
       handleData,
       handleError
     );
+    handleClose();
   }
 
   return (
     <>
-      <h2>Anime Listing</h2>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+        onClick={handleClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      {isLoading}
+
+      <h1>Anime Listing</h1>
       <Card items={animeList} deleteFn={null} />
       <Pagination currentActivePageNumberChanged={changeCurrentActivePage} />
     </>
