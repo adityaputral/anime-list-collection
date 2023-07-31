@@ -1,8 +1,10 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import { css } from '@emotion/react';
 
 import apiFetcher from '../../utilities/apiFetcher';
 import { addAnime } from '../../store/animeCollections';
@@ -14,9 +16,9 @@ import {
 
 function AnimeDetail() {
   const [animeDetail, setAnimeDetail] = useState<IAnimeDetailData>({});
-  const [collectionListBelong, setCollectionListBelong] = useState<string[]>(
-    []
-  );
+  const [collectionListBelong, setCollectionListBelong] = useState<
+    { name: string; id: string }[]
+  >([]);
   const { animeId } = useParams();
   const dispatch = useDispatch();
 
@@ -25,7 +27,7 @@ function AnimeDetail() {
   );
 
   function getCollectionBelonging(): void {
-    let collectionList: string[] = [];
+    let collectionList: { name: string; id: string }[] = [];
     collections.forEach((collection: IAnimeCollection) => {
       const foundAnimeList =
         collection.animeList &&
@@ -34,7 +36,8 @@ function AnimeDetail() {
           (animeItem: IAnimeDetailData) => animeItem.id == animeId
         );
 
-      if (foundAnimeList) collectionList.push(collection.name);
+      if (foundAnimeList)
+        collectionList.push({ name: collection.name, id: collection.id });
     });
 
     setCollectionListBelong(collectionList);
@@ -48,6 +51,9 @@ function AnimeDetail() {
 	  description
 	  season
 	  genres
+	  episodes
+	  seasonYear
+	  averageScore
 	  title {
 		english
 		native
@@ -60,7 +66,6 @@ function AnimeDetail() {
   }
 
   function handleError(error: unknown): void {
-    alert('Error, check console');
     console.error(error);
   }
 
@@ -84,21 +89,71 @@ function AnimeDetail() {
 
   return (
     <>
-      <h2>Anime Detail</h2>
-      <img src={animeDetail.bannerImage} alt="" />
-      <Typography gutterBottom variant="h1" component="div">
-        {animeDetail.title?.english} ({animeDetail.title?.native})
-      </Typography>
+      <h1>Anime Detail</h1>
+      <div
+        css={{
+          borderRadius: '5px',
+          backgroundImage: `url(${animeDetail.bannerImage})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center center',
+          backgroundSize: 'cover',
+          boxShadow: '0px 0px 10px rgb(0, 0, 0)',
+          position: 'relative',
+          height: '300px'
+        }}
+      ></div>
+      <h2>
+        {animeDetail.title?.english || '-'} - {animeDetail.seasonYear || '-'}
+      </h2>
+      <h3>({animeDetail.title?.native || '-'})</h3>
       <br />
-      {animeDetail.description}
-      <br />
-      {animeDetail.season}
-      <br />
-      {animeDetail.genres?.toString()}
-      <br />
-      Collections : {collectionListBelong.toString()}
-      <br />
-      <Button onClick={addToCollection}>Add Anime To Collection</Button>
+      <div
+        css={css`
+          display: flex;
+          @media (max-width: 720px) {
+            flex-direction: column;
+          }
+        `}
+      >
+        <div
+          css={css`
+            margin-right: 20px;
+          `}
+        >
+          <div>
+            <strong>Genres</strong> :<p>{animeDetail.genres?.toString()}</p>
+          </div>
+          <div>
+            <strong>Episodes</strong> :<p>{animeDetail.episodes?.toString()}</p>
+          </div>
+          <div>
+            <strong>Average Score</strong> :
+            <p>{animeDetail.averageScore + ' / 100'}</p>
+          </div>
+
+          <div>
+            <strong>Season</strong> :<p>{animeDetail.season}</p>
+          </div>
+        </div>
+
+        <div>
+          <strong>Description</strong> : <p>{animeDetail.description}</p>
+          <br />
+          <strong>Collections</strong> :{' '}
+          {collectionListBelong &&
+            collectionListBelong.length > 0 &&
+            collectionListBelong.map((collectionItem, i) => (
+              <>
+                <Link to={`/collection-list/${collectionItem.id}/detail`}>
+                  {collectionItem.name}
+                </Link>
+                {i < collectionListBelong.length - 1 ? ', ' : ''}
+              </>
+            ))}
+          <br />
+          {/* <Button onClick={addToCollection}>Add Anime To Collection</Button> */}
+        </div>
+      </div>
     </>
   );
 }

@@ -85,7 +85,6 @@ function AnimeListing() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      {isLoading}
 
       <h1>Anime Listing</h1>
       <Card items={animeList} deleteFn={null} />
