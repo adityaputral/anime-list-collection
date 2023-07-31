@@ -67,18 +67,20 @@ function CollectionDetail() {
   }, []);
   return (
     <>
-      <h2>Collection Detail</h2>
-      {editingCollection ? (
-        <TextField onChange={onTextChange} value={textValue} />
-      ) : (
-        textValue
-      )}
+      <h1>Collection Detail</h1>
+      <div css={{ display: 'flex' }}>
+        <TextField
+          fullWidth
+          label="Collection Name"
+          variant="standard"
+          onChange={onTextChange}
+          value={textValue}
+        />
 
-      <Button onClick={editingCollection ? editCollectionName : toggleEdit}>
-        {editingCollection ? 'Submit' : 'Edit'}
-      </Button>
+        <Button onClick={editCollectionName}>Update</Button>
+      </div>
 
-      <h3>Anime List</h3>
+      <h2>Anime List</h2>
       {collectionDetailData &&
       collectionDetailData.animeList &&
       collectionDetailData.animeList.length > 0 ? (

@@ -74,7 +74,7 @@ export default function Counter() {
 
   return (
     <div>
-      <h2>Collection Listing</h2>
+      <h1>Collection Listing</h1>
 
       <NavigationButton />
       <Grid container spacing={3}>
