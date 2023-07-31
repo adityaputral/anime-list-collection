@@ -4,6 +4,17 @@ import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
+
 import { css } from '@emotion/react';
 
 import apiFetcher from '../../utilities/apiFetcher';
@@ -69,13 +80,14 @@ function AnimeDetail() {
     console.error(error);
   }
 
-  function addToCollection(): void {
+  function addToCollection(id: string | number): void {
     dispatch(
       addAnime({
         animeDetail: animeDetail,
-        collectionId: 'col1'
+        collectionId: id
       })
     );
+    getCollectionBelonging();
   }
 
   useEffect(() => {
@@ -86,6 +98,30 @@ function AnimeDetail() {
 
     populateData();
   }, []);
+
+  const [checked, setChecked] = useState([0]);
+
+  const handleToggle = (value: number) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
+
+  function isAvailableOnBelonging(id: string | number): boolean {
+    const foundBelonging = collectionListBelong.find(
+      (collectionBelongItem) => collectionBelongItem.id === id
+    );
+
+    if (foundBelonging) return true;
+    return false;
+  }
 
   return (
     <>
@@ -140,18 +176,57 @@ function AnimeDetail() {
           <strong>Description</strong> : <p>{animeDetail.description}</p>
           <br />
           <strong>Collections</strong> :{' '}
-          {collectionListBelong &&
-            collectionListBelong.length > 0 &&
-            collectionListBelong.map((collectionItem, i) => (
-              <>
-                <Link to={`/collection-list/${collectionItem.id}/detail`}>
-                  {collectionItem.name}
-                </Link>
-                {i < collectionListBelong.length - 1 ? ', ' : ''}
-              </>
-            ))}
+          {collectionListBelong && collectionListBelong.length > 0
+            ? collectionListBelong.map((collectionItem, i) => (
+                <>
+                  <Link to={`/collection-list/${collectionItem.id}/detail`}>
+                    {collectionItem.name}
+                  </Link>
+                  {i < collectionListBelong.length - 1 ? ', ' : ''}
+                </>
+              ))
+            : '-'}
           <br />
-          {/* <Button onClick={addToCollection}>Add Anime To Collection</Button> */}
+          <List
+            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+          >
+            {collections &&
+              collections.length > 0 &&
+              collections.map((collection: IAnimeCollection, i: number) => {
+                const labelId = `checkbox-list-label-${i}`;
+
+                return (
+                  <ListItem
+                    key={i}
+                    secondaryAction={
+                      <IconButton
+                        edge="end"
+                        aria-label="comments"
+                        onClick={() => addToCollection(collection.id)}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    }
+                    disablePadding
+                  >
+                    <ListItemButton
+                      role={undefined}
+                      onClick={handleToggle(collection)}
+                      dense
+                    >
+                      <ListItemIcon>
+                        {isAvailableOnBelonging(collection.id) ? (
+                          <CheckIcon color="success" />
+                        ) : (
+                          <CloseIcon color="error" />
+                        )}
+                      </ListItemIcon>
+                      <ListItemText id={labelId} primary={collection.name} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
+          </List>
         </div>
       </div>
     </>
