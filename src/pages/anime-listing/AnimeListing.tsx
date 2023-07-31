@@ -82,8 +82,16 @@ function AnimeListing() {
         <Link to={`/collection-list`}>My Collections</Link>
       </div>
 
-      <Card items={animeList} deleteFn={null} />
-      <Pagination currentActivePageNumberChanged={changeCurrentActivePage} />
+      {animeList && animeList.length > 0 ? (
+        <>
+          <Card items={animeList} deleteFn={null} />
+          <Pagination
+            currentActivePageNumberChanged={changeCurrentActivePage}
+          />
+        </>
+      ) : (
+        'No anime available'
+      )}
     </>
   );
 }

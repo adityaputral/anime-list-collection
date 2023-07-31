@@ -82,8 +82,7 @@ export default function Counter() {
       </div>
 
       <Grid container spacing={3}>
-        {collections &&
-          collections.length > 0 &&
+        {collections && collections.length > 0 ? (
           collections.map((collection: IAnimeCollection, i: number) => {
             return (
               <>
@@ -143,7 +142,10 @@ export default function Counter() {
                 </Grid>
               </>
             );
-          })}
+          })
+        ) : (
+          <Grid item>No collection available</Grid>
+        )}
       </Grid>
 
       <CollectionCard />
