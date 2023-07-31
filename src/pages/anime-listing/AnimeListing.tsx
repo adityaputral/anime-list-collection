@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Link } from 'react-router-dom';
 import apiFetcher from '../../utilities/apiFetcher';
 import Card from '../../components/Card/Card';
 import Pagination from '../../components/Pagination/Pagination';
@@ -86,7 +86,17 @@ function AnimeListing() {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <h1>Anime Listing</h1>
+      <div
+        css={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        <h1>Anime Listing</h1>
+        <Link to={`/collection-list`}>My Collections</Link>
+      </div>
+
       <Card items={animeList} deleteFn={null} />
       <Pagination currentActivePageNumberChanged={changeCurrentActivePage} />
     </>

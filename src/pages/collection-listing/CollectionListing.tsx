@@ -18,13 +18,9 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
 import { useNavigate } from 'react-router-dom';
-import {
-  addCollection,
-  removeCollection,
-  editCollection,
-  addAnime,
-  removeAnime
-} from '../../store/animeCollections';
+import { removeCollection, editCollection } from '../../store/animeCollections';
+
+import CollectionCard from './../../components/Card/CollectionCard';
 
 import {
   IAnimeDetailData,
@@ -74,9 +70,17 @@ export default function Counter() {
 
   return (
     <div>
-      <h1>Collection Listing</h1>
+      <div
+        css={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        <h1>My Collections</h1>
+        <NavigationButton />
+      </div>
 
-      <NavigationButton />
       <Grid container spacing={3}>
         {collections &&
           collections.length > 0 &&
@@ -142,6 +146,8 @@ export default function Counter() {
           })}
       </Grid>
 
+      <CollectionCard />
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -174,7 +180,7 @@ export default function Counter() {
           </Stack>
         </Box>
       </Modal>
-      <div>
+      {/* <div>
         <button
           aria-label="Increment value"
           onClick={() =>
@@ -232,7 +238,7 @@ export default function Counter() {
         >
           Remove Anime
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

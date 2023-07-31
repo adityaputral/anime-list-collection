@@ -46,10 +46,6 @@ function CollectionDetail() {
     }
   }
 
-  function toggleEdit(): void {
-    setEditingCollection(!editingCollection);
-  }
-
   function editCollectionName(): void {
     if (collectionId) {
       dispatch(

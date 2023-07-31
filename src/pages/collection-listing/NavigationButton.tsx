@@ -9,9 +9,14 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
 import { addCollection } from '../../store/animeCollections';
+import {
+  IAnimeDetailData,
+  IAnimeCollectionsState,
+  IAnimeCollection
+} from './../../store/animeCollections';
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -24,7 +29,7 @@ const style = {
 function NavigationButton() {
   const dispatch = useDispatch();
   const collections = useSelector(
-    (state) => state.animeCollections.collections
+    (state: IAnimeCollectionsState) => state.animeCollections.collections
   );
 
   const [collectionTitle, setCollectionTitle] = useState<string>('');
@@ -49,7 +54,7 @@ function NavigationButton() {
         <Box sx={style}>
           <Stack component="form" spacing={2}>
             <TextField
-              label="Title"
+              label="Collection Name"
               fullWidth
               onChange={onTitleChange}
               value={collectionTitle}

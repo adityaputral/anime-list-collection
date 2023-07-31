@@ -1,15 +1,11 @@
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -38,7 +34,7 @@ function AnimeDetail() {
   );
 
   function getCollectionBelonging(): void {
-    let collectionList: { name: string; id: string }[] = [];
+    const collectionList: { name: string; id: string }[] = [];
     collections.forEach((collection: IAnimeCollection) => {
       const foundAnimeList =
         collection.animeList &&
