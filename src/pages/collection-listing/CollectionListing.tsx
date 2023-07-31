@@ -2,9 +2,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import CardHeader from '@mui/material/CardHeader';
+import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import { CardActionArea } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
+
 import { useNavigate } from 'react-router-dom';
 import {
   addCollection,
@@ -13,6 +18,8 @@ import {
   addAnime,
   removeAnime
 } from '../../store/animeCollections';
+
+import NavigationButton from './NavigationButton';
 
 export default function Counter() {
   const navigate = useNavigate();
@@ -24,39 +31,58 @@ export default function Counter() {
   return (
     <div>
       <h2>Collection Listing</h2>
+
+      <NavigationButton />
       <Grid container spacing={3}>
         {collections &&
           collections.length > 0 &&
           collections.map((collection, i: number) => {
-            let showMore = true;
-            function toggleShowMore() {
-              showMore = !showMore;
-            }
             return (
               <>
                 <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
-                  <CardActionArea>
-                    <Card
-                      sx={{ height: '100%' }}
-                      onClick={() => navigate(`${collection.id}/detail`)}
-                    >
-                      <CardMedia
-                        sx={{ height: 140 }}
-                        image={
-                          collection.animeList &&
-                          collection.animeList.length > 0
-                            ? collection.animeList[0].bannerImage
-                            : ''
-                        }
-                        title={collection.name}
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                          {collection.name}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </CardActionArea>
+                  <Card sx={{ height: '100%' }}>
+                    <CardHeader
+                      action={
+                        <>
+                          {
+                            <IconButton
+                              aria-label="delete"
+                              title="Delete from collection"
+                            >
+                              <DeleteIcon
+                                onClick={() =>
+                                  dispatch(removeCollection(collection.id))
+                                }
+                              />
+                            </IconButton>
+                          }
+                        </>
+                      }
+                    />
+                    <CardMedia
+                      sx={{ height: 140 }}
+                      image={
+                        collection.animeList && collection.animeList.length > 0
+                          ? collection.animeList[0].bannerImage
+                          : ''
+                      }
+                      title={collection.name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {collection.name}
+                      </Typography>
+                    </CardContent>
+
+                    <CardActions>
+                      <Button
+                        size="small"
+                        onClick={() => navigate(`${collection.id}/detail`)}
+                      >
+                        View Collection
+                      </Button>
+                    </CardActions>
+                  </Card>
                 </Grid>
               </>
             );
