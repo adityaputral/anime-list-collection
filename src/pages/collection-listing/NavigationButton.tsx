@@ -28,7 +28,7 @@ function NavigationButton() {
   );
 
   const [collectionTitle, setCollectionTitle] = useState<string>('');
-  function onTitleChange(e: any) {
+  function onTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setCollectionTitle(e.target.value);
   }
 

@@ -24,7 +24,7 @@ function AnimeDetail() {
     (state: IAnimeCollectionsState) => state.animeCollections.collections
   );
 
-  function getCollectionBelonging() {
+  function getCollectionBelonging(): void {
     let collectionList: string[] = [];
     collections.forEach((collection: IAnimeCollection) => {
       const foundAnimeList =
@@ -55,16 +55,16 @@ function AnimeDetail() {
 	}
   }`;
 
-  function handleData(data: { data: { Media: IAnimeDetailData } }) {
+  function handleData(data: { data: { Media: IAnimeDetailData } }): void {
     setAnimeDetail(data.data.Media);
   }
 
-  function handleError(error: unknown) {
+  function handleError(error: unknown): void {
     alert('Error, check console');
     console.error(error);
   }
 
-  function addToCollection() {
+  function addToCollection(): void {
     dispatch(
       addAnime({
         animeDetail: animeDetail,

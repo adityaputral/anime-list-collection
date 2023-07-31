@@ -36,12 +36,12 @@ function AnimeListing() {
     perPage: 10
   };
 
-  function handleData(data: { data: AnimeListingResponse }) {
+  function handleData(data: { data: IAnimeListingResponse }): void {
     console.log(data.data.Media);
     setAnimeList([...data.data.Page.media]);
   }
 
-  function handleError(error: unknown) {
+  function handleError(error: unknown): void {
     alert('Error, check console');
     console.error(error);
   }
@@ -54,7 +54,7 @@ function AnimeListing() {
     populateData();
   }, []);
 
-  async function changeCurrentActivePage(pageNumber: number) {
+  async function changeCurrentActivePage(pageNumber: number): void {
     await apiFetcher(
       query,
       { ...variables, page: pageNumber },

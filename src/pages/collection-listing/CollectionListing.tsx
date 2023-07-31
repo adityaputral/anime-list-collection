@@ -39,7 +39,7 @@ export default function Counter() {
     name: string;
     id: string | number;
   }>({ name: '', id: '' });
-  function onTitleChange(e: any) {
+  function onTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setCollectionTitle({ name: e.target.value, id: collectionTitle.id });
   }
 

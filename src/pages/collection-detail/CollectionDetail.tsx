@@ -5,23 +5,30 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { editCollection, removeAnime } from '../../store/animeCollections';
 import Card from '../../components/Card/Card';
+import {
+  IAnimeDetailData,
+  IAnimeCollectionsState,
+  IAnimeCollection
+} from './../../store/animeCollections';
 
 function CollectionDetail() {
-  const [collectionDetailData, setCollectionDetailData] = useState({});
-  const [editingCollection, setEditingCollection] = useState(false);
+  const [collectionDetailData, setCollectionDetailData] =
+    useState<IAnimeCollection>({});
+  const [editingCollection, setEditingCollection] = useState<boolean>(false);
 
   const [textValue, setTextValue] = useState<string>('');
-  const onTextChange = (e: any) => setTextValue(e.target.value);
+  const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTextValue(e.target.value);
 
   const { collectionId } = useParams();
   const dispatch = useDispatch();
   const collections = useSelector(
-    (state) => state.animeCollections.collections
+    (state: IAnimeCollectionsState) => state.animeCollections.collections
   );
 
-  function findCollectionDetail() {
+  function findCollectionDetail(): void {
     const foundCollection = collections.find(
-      (collection) => collection.id === collectionId
+      (collection: IAnimeCollection) => collection.id === collectionId
     );
 
     if (foundCollection) {
@@ -30,25 +37,29 @@ function CollectionDetail() {
     }
   }
 
-  function removeAnimeFromCollection(animeData) {
-    dispatch(
-      removeAnime({ animeId: animeData.id, collectionId: collectionId })
-    );
-    findCollectionDetail();
+  function removeAnimeFromCollection(animeData: IAnimeDetailData): void {
+    if (collectionId) {
+      dispatch(
+        removeAnime({ animeId: animeData.id, collectionId: collectionId })
+      );
+      findCollectionDetail();
+    }
   }
 
-  function toggleEdit() {
+  function toggleEdit(): void {
     setEditingCollection(!editingCollection);
   }
 
-  function editCollectionName() {
-    dispatch(
-      editCollection({
-        collectionId,
-        name: textValue
-      })
-    );
-    setEditingCollection(false);
+  function editCollectionName(): void {
+    if (collectionId) {
+      dispatch(
+        editCollection({
+          collectionId,
+          name: textValue
+        })
+      );
+      setEditingCollection(false);
+    }
   }
 
   useEffect(() => {
