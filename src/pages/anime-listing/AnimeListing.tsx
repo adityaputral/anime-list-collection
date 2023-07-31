@@ -54,7 +54,7 @@ function AnimeListing() {
     populateData();
   }, []);
 
-  async function changeCurrentActivePage(pageNumber: number): void {
+  async function changeCurrentActivePage(pageNumber: number): Promise<void> {
     await apiFetcher(
       query,
       { ...variables, page: pageNumber },

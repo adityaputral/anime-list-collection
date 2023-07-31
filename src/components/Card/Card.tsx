@@ -1,4 +1,3 @@
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -11,10 +10,12 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 
-const Cards = ({ items, deleteFn }) => {
+import { ICardData, ICardProps } from './Card';
+
+const Cards = ({ items, deleteFn }: ICardProps) => {
   const navigate = useNavigate();
 
-  function goToDetail(cardItem: Record<string, any>) {
+  function goToDetail(cardItem: ICardData) {
     navigate(`/anime-list/${cardItem.id}/detail`);
   }
 
@@ -23,11 +24,7 @@ const Cards = ({ items, deleteFn }) => {
       <Grid container spacing={3}>
         {items &&
           items.length > 0 &&
-          items.map((cardItem, i: number) => {
-            let showMore = true;
-            function toggleShowMore() {
-              showMore = !showMore;
-            }
+          items.map((cardItem: ICardData, i: number) => {
             return (
               <>
                 <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
@@ -65,23 +62,6 @@ const Cards = ({ items, deleteFn }) => {
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
                         {cardItem.title.english}
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="subtitle2"
-                        component="div"
-                      >
-                        {showMore + ''}
-                        {showMore
-                          ? cardItem.description.substring(0, 250) + '...'
-                          : cardItem.description}
-                        <Button
-                          size="small"
-                          variant="text"
-                          onClick={toggleShowMore}
-                        >
-                          {showMore ? 'See more' : 'See less'}
-                        </Button>
                       </Typography>
                     </CardContent>
                   </Card>
