@@ -1,5 +1,12 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 
+import {
+  IAnimeDetailData,
+  IAnimeCollectionsState,
+  IAnimeCollection,
+  IAnimeCollectionsInitialState
+} from './animeCollections';
+
 export const animeCollectionSlice = createSlice({
   name: 'animeCollections',
   initialState: {
@@ -7,55 +14,54 @@ export const animeCollectionSlice = createSlice({
   },
   reducers: {
     addCollection: (
-      state,
+      state: IAnimeCollectionsInitialState,
       action: {
-        payload: {
-          id: string;
-          name: string;
-          animeList: [{ animeDetail: Record<string, any> }];
-        };
+        payload: IAnimeDetailData;
       }
     ) => {
       const payload = action.payload;
       state.collections.push(payload);
     },
     removeCollection: (
-      state,
+      state: IAnimeCollectionsInitialState,
       action: {
         payload: string;
       }
     ) => {
       const payload = action.payload;
       const foundCollectionIndex = state.collections.findIndex(
-        (collection) => collection.id === payload
+        (collection: IAnimeCollection) => collection.id === payload
       );
 
       if (foundCollectionIndex > -1)
         state.collections.splice(foundCollectionIndex, 1);
     },
     editCollection: (
-      state,
+      state: IAnimeCollectionsInitialState,
       action: {
-        payload: { collectionId: string; name: string };
+        payload: { collectionId: string | number; name: string };
       }
     ) => {
       const payload = action.payload;
       const foundCollectionIndex = state.collections.findIndex(
-        (collection) => collection.id === payload.collectionId
+        (collection: IAnimeCollection) => collection.id === payload.collectionId
       );
 
       if (foundCollectionIndex > -1)
         state.collections[foundCollectionIndex].name = payload.name;
     },
     addAnime: (
-      state,
+      state: IAnimeCollectionsInitialState,
       action: {
-        payload: { animeDetail: Record<string, any>; collectionId: string };
+        payload: {
+          animeDetail: IAnimeDetailData;
+          collectionId: string | number;
+        };
       }
     ) => {
       const payload = action.payload;
       const foundCollectionIndex = state.collections.findIndex(
-        (collection) => collection.id === payload.collectionId
+        (collection: IAnimeCollection) => collection.id === payload.collectionId
       );
 
       if (foundCollectionIndex > -1) {
@@ -65,21 +71,21 @@ export const animeCollectionSlice = createSlice({
       }
     },
     removeAnime: (
-      state,
+      state: IAnimeCollectionsInitialState,
       action: {
-        payload: { animeId: string; collectionId: string };
+        payload: { animeId: string; collectionId: string | number };
       }
     ) => {
       const payload = action.payload;
       const foundCollectionIndex = state.collections.findIndex(
-        (collection) => collection.id === payload.collectionId
+        (collection: IAnimeCollection) => collection.id === payload.collectionId
       );
 
       if (foundCollectionIndex > -1) {
         const animeListUnderTheCollection =
           state.collections[foundCollectionIndex].animeList;
         const foundAnimeIndex = animeListUnderTheCollection.findIndex(
-          (animeItem) => animeItem.id === payload.animeId
+          (animeItem: IAnimeDetailData) => animeItem.id === payload.animeId
         );
 
         if (foundAnimeIndex > -1) {

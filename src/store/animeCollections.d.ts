@@ -18,8 +18,9 @@ export interface IAnimeCollection {
 
 export type AnimeCollections = IAnimeCollection[];
 
+export interface IAnimeCollectionsInitialState {
+  collections: AnimeCollections;
+}
 export interface IAnimeCollectionsState {
-  animeCollections: {
-    collections: AnimeCollections;
-  };
+  animeCollections: AnimeCollectionsInitialState;
 }
