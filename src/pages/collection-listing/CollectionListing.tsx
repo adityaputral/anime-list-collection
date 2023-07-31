@@ -1,3 +1,5 @@
+import * as React from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -8,7 +10,12 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 
 import { useNavigate } from 'react-router-dom';
 import {
@@ -28,6 +35,32 @@ export default function Counter() {
   );
   const dispatch = useDispatch();
 
+  const [collectionTitle, setCollectionTitle] = useState<{
+    name: string;
+    id: string | number;
+  }>({ name: '', id: '' });
+  function onTitleChange(e: any) {
+    setCollectionTitle({ name: e.target.value, id: collectionTitle.id });
+  }
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = (collectionData: { name: string; id: string }) => {
+    setOpen(true);
+    setCollectionTitle(collectionData);
+  };
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4
+  };
+
   return (
     <div>
       <h2>Collection Listing</h2>
@@ -44,18 +77,27 @@ export default function Counter() {
                     <CardHeader
                       action={
                         <>
-                          {
-                            <IconButton
-                              aria-label="delete"
-                              title="Delete from collection"
-                            >
-                              <DeleteIcon
-                                onClick={() =>
-                                  dispatch(removeCollection(collection.id))
-                                }
-                              />
-                            </IconButton>
-                          }
+                          <IconButton
+                            aria-label="delete"
+                            title="Delete from collection"
+                          >
+                            <DeleteIcon
+                              onClick={() =>
+                                dispatch(removeCollection(collection.id))
+                              }
+                            />
+                          </IconButton>
+
+                          <IconButton aria-label="Edit" title="Edit collection">
+                            <ModeEditIcon
+                              onClick={() =>
+                                handleOpen({
+                                  name: collection.name,
+                                  id: collection.id
+                                })
+                              }
+                            />
+                          </IconButton>
                         </>
                       }
                     />
@@ -89,6 +131,38 @@ export default function Counter() {
           })}
       </Grid>
 
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Stack component="form" spacing={2}>
+            <TextField
+              label="Title"
+              fullWidth
+              onChange={onTitleChange}
+              value={collectionTitle.name}
+            />
+
+            <Button
+              onClick={() => {
+                dispatch(
+                  editCollection({
+                    collectionId: collectionTitle.id,
+                    name: collectionTitle.name
+                  })
+                );
+                setCollectionTitle({ name: '', id: '' });
+                handleClose();
+              }}
+            >
+              Add
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
       <div>
         <button
           aria-label="Increment value"
