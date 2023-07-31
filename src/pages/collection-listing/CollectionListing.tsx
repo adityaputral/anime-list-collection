@@ -26,12 +26,18 @@ import {
   removeAnime
 } from '../../store/animeCollections';
 
+import {
+  IAnimeDetailData,
+  IAnimeCollectionsState,
+  IAnimeCollection
+} from './../../store/animeCollections';
+
 import NavigationButton from './NavigationButton';
 
 export default function Counter() {
   const navigate = useNavigate();
   const collections = useSelector(
-    (state) => state.animeCollections.collections
+    (state: IAnimeCollectionsState) => state.animeCollections.collections
   );
   const dispatch = useDispatch();
 
@@ -39,19 +45,24 @@ export default function Counter() {
     name: string;
     id: string | number;
   }>({ name: '', id: '' });
-  function onTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+
+  function onTitleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     setCollectionTitle({ name: e.target.value, id: collectionTitle.id });
   }
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = (collectionData: { name: string; id: string }) => {
-    setOpen(true);
-    setCollectionTitle(collectionData);
-  };
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false);
+  function handleOpen(collectionData: { name: string; id: string }): void {
+    {
+      setOpen(true);
+      setCollectionTitle(collectionData);
+    }
+  }
+  function handleClose(): void {
+    setOpen(false);
+  }
 
   const style = {
-    position: 'absolute' as 'absolute',
+    position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -69,7 +80,7 @@ export default function Counter() {
       <Grid container spacing={3}>
         {collections &&
           collections.length > 0 &&
-          collections.map((collection, i: number) => {
+          collections.map((collection: IAnimeCollection, i: number) => {
             return (
               <>
                 <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
