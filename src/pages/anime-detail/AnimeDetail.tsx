@@ -6,24 +6,33 @@ import Button from '@mui/material/Button';
 
 import apiFetcher from '../../utilities/apiFetcher';
 import { addAnime } from '../../store/animeCollections';
+import {
+  IAnimeDetailData,
+  IAnimeCollectionsState,
+  IAnimeCollection
+} from './../../store/animeCollections';
 
 function AnimeDetail() {
-  const [animeDetail, setAnimeDetail] = useState({});
-  const [collectionListBelong, setCollectionListBelong] = useState([]);
+  const [animeDetail, setAnimeDetail] = useState<IAnimeDetailData>({});
+  const [collectionListBelong, setCollectionListBelong] = useState<string[]>(
+    []
+  );
   const { animeId } = useParams();
   const dispatch = useDispatch();
 
   const collections = useSelector(
-    (state) => state.animeCollections.collections
+    (state: IAnimeCollectionsState) => state.animeCollections.collections
   );
 
   function getCollectionBelonging() {
     let collectionList: string[] = [];
-    collections.forEach((collection) => {
+    collections.forEach((collection: IAnimeCollection) => {
       const foundAnimeList =
         collection.animeList &&
         collection.animeList.length > 0 &&
-        collection.animeList.find((animeItem) => animeItem.id == animeId);
+        collection.animeList.find(
+          (animeItem: IAnimeDetailData) => animeItem.id == animeId
+        );
 
       if (foundAnimeList) collectionList.push(collection.name);
     });
@@ -46,16 +55,16 @@ function AnimeDetail() {
 	}
   }`;
 
-  function handleData(data) {
+  function handleData(data: { data: { Media: IAnimeDetailData } }) {
     setAnimeDetail(data.data.Media);
   }
 
-  function handleError(error) {
+  function handleError(error: unknown) {
     alert('Error, check console');
     console.error(error);
   }
 
-  function addToCollection(collectionName: string) {
+  function addToCollection() {
     dispatch(
       addAnime({
         animeDetail: animeDetail,

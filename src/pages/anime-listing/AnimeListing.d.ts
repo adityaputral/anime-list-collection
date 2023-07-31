@@ -1,4 +1,4 @@
-export interface AnimeListingResponse {
+export interface IAnimeListingResponse {
   Page: {
     media: {
       id: string | number;

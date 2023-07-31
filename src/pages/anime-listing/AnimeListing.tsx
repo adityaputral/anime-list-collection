@@ -2,12 +2,12 @@ import * as React from 'react';
 import apiFetcher from '../../utilities/apiFetcher';
 import Card from '../../components/Card/Card';
 import Pagination from '../../components/Pagination/Pagination';
-import { AnimeListingResponse } from './AnimeListing';
+import { IAnimeListingResponse } from './AnimeListing';
 
 import { useEffect, useState } from 'react';
 
 function AnimeListing() {
-  const [animeList, setAnimeList] = useState<AnimeListingResponse[]>([]);
+  const [animeList, setAnimeList] = useState<IAnimeListingResponse[]>([]);
 
   const query = `
   query ($id: Int, $page: Int, $perPage: Int, $search: String) {
