@@ -2,10 +2,12 @@ import * as React from 'react';
 import apiFetcher from '../../utilities/apiFetcher';
 import Card from '../../components/Card/Card';
 import Pagination from '../../components/Pagination/Pagination';
+import { AnimeListingResponse } from './AnimeListing';
+
 import { useEffect, useState } from 'react';
 
 function AnimeListing() {
-  const [animeList, setAnimeList] = useState([]);
+  const [animeList, setAnimeList] = useState<AnimeListingResponse[]>([]);
 
   const query = `
   query ($id: Int, $page: Int, $perPage: Int, $search: String) {
@@ -34,12 +36,12 @@ function AnimeListing() {
     perPage: 10
   };
 
-  function handleData(data) {
+  function handleData(data: { data: AnimeListingResponse }) {
     console.log(data.data.Media);
     setAnimeList([...data.data.Page.media]);
   }
 
-  function handleError(error) {
+  function handleError(error: unknown) {
     alert('Error, check console');
     console.error(error);
   }
@@ -64,7 +66,7 @@ function AnimeListing() {
   return (
     <>
       <h2>Anime Listing</h2>
-      <Card items={animeList} />
+      <Card items={animeList} deleteFn={null} />
       <Pagination currentActivePageNumberChanged={changeCurrentActivePage} />
     </>
   );
