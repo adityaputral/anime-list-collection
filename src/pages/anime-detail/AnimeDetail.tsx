@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { css } from '@emotion/react';
 
@@ -121,6 +122,7 @@ function AnimeDetail() {
 
   return (
     <>
+      <Link to={`/anime-list`}>Back to Anime Listing</Link>
       <h1>Anime Detail</h1>
       <div
         css={{
