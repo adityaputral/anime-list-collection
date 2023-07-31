@@ -2,10 +2,9 @@ import { Link } from 'react-router-dom';
 import apiFetcher from '../../utilities/apiFetcher';
 import Card from '../../components/Card/Card';
 import Pagination from '../../components/Pagination/Pagination';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import { IAnimeListingResponse } from './AnimeListing';
+import { useLoading } from './../../context/LoadingContext';
 
 import { useEffect, useState } from 'react';
 
@@ -48,13 +47,7 @@ function AnimeListing() {
     console.error(error);
   }
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const handleClose = () => {
-    setIsLoading(false);
-  };
-  const handleOpen = () => {
-    setIsLoading(true);
-  };
+  const { setLoading } = useLoading();
 
   useEffect(() => {
     async function populateData() {
@@ -62,30 +55,22 @@ function AnimeListing() {
     }
 
     populateData();
-    handleClose();
+    setLoading(false);
   }, []);
 
   async function changeCurrentActivePage(pageNumber: number): Promise<void> {
-    handleOpen();
+    setLoading(true);
     await apiFetcher(
       query,
       { ...variables, page: pageNumber },
       handleData,
       handleError
     );
-    handleClose();
+    setLoading(false);
   }
 
   return (
     <>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isLoading}
-        onClick={handleClose}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
-
       <div
         css={{
           display: 'flex',

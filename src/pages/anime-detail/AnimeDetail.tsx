@@ -10,10 +10,10 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { css } from '@emotion/react';
 
+import { useLoading } from './../../context/LoadingContext';
 import apiFetcher from '../../utilities/apiFetcher';
 import { addAnime } from '../../store/animeCollections';
 import {
@@ -89,8 +89,10 @@ function AnimeDetail() {
 
   useEffect(() => {
     async function populateData() {
+      setLoading(true);
       await apiFetcher(query, { id: animeId }, handleData, handleError);
       getCollectionBelonging();
+      setLoading(false);
     }
 
     populateData();
@@ -119,6 +121,8 @@ function AnimeDetail() {
     if (foundBelonging) return true;
     return false;
   }
+
+  const { setLoading } = useLoading();
 
   return (
     <>
