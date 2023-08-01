@@ -108,7 +108,7 @@ export default function Counter() {
                         <>
                           <IconButton
                             aria-label="delete"
-                            title="Delete from collection"
+                            title="Delete collection"
                           >
                             <DeleteIcon
                               onClick={() =>
@@ -177,7 +177,7 @@ export default function Counter() {
         <Box sx={style}>
           <Stack component="form" spacing={2}>
             <TextField
-              label="Title"
+              label="Collection name"
               fullWidth
               onChange={onTitleChange}
               value={collectionTitle.name}

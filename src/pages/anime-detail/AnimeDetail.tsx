@@ -10,12 +10,14 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 import { css } from '@emotion/react';
 
 import { useLoading } from './../../context/LoadingContext';
 import apiFetcher from '../../utilities/apiFetcher';
-import { addAnime } from '../../store/animeCollections';
+import { addAnime, addCollection } from '../../store/animeCollections';
 import {
   IAnimeDetailData,
   IAnimeCollectionsState,
@@ -124,6 +126,11 @@ function AnimeDetail() {
 
   const { setLoading } = useLoading();
 
+  const [collectionTitle, setCollectionTitle] = useState<string>('');
+  function onTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setCollectionTitle(e.target.value);
+  }
+
   return (
     <>
       <Link to={`/anime-list`}>Back to Anime Listing</Link>
@@ -192,8 +199,7 @@ function AnimeDetail() {
           <List
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
           >
-            {collections &&
-              collections.length > 0 &&
+            {collections && collections.length > 0 ? (
               collections.map((collection: IAnimeCollection, i: number) => {
                 const labelId = `checkbox-list-label-${i}`;
 
@@ -227,7 +233,32 @@ function AnimeDetail() {
                     </ListItemButton>
                   </ListItem>
                 );
-              })}
+              })
+            ) : (
+              <>
+                <TextField
+                  label="Collection name"
+                  variant="standard"
+                  onChange={onTitleChange}
+                  value={collectionTitle}
+                />
+                <br />
+
+                <Button
+                  onClick={() => {
+                    dispatch(
+                      addCollection({
+                        id: 'col' + collections.length,
+                        name: collectionTitle,
+                        animeList: []
+                      })
+                    );
+                  }}
+                >
+                  Add Collection
+                </Button>
+              </>
+            )}
           </List>
         </div>
       </div>

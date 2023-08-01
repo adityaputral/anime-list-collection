@@ -57,7 +57,7 @@ function NavigationButton() {
         <Box sx={style}>
           <Stack component="form" spacing={2}>
             <TextField
-              label="Collection Name"
+              label="Collection name"
               fullWidth
               onChange={onTitleChange}
               value={collectionTitle}
