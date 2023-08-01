@@ -100,19 +100,8 @@ function AnimeDetail() {
     populateData();
   }, [collections]);
 
-  const [checked, setChecked] = useState([0]);
-
-  const handleToggle = (value: number) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
+  const handleToggle = (value: IAnimeCollection) => () => {
+    window.open(`/collection-list/${value.id}/detail`);
   };
 
   function isAvailableOnBelonging(id: string | number): boolean {
@@ -217,11 +206,7 @@ function AnimeDetail() {
                     }
                     disablePadding
                   >
-                    <ListItemButton
-                      role={undefined}
-                      onClick={handleToggle(collection)}
-                      dense
-                    >
+                    <ListItemButton onClick={handleToggle(collection)} dense>
                       <ListItemIcon>
                         {isAvailableOnBelonging(collection.id) ? (
                           <CheckIcon color="success" />
