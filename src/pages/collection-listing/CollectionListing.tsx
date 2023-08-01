@@ -16,6 +16,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import { Link } from 'react-router-dom';
 
 import { useSnackbar } from './../../context/SnackbarContext';
 
@@ -132,6 +133,7 @@ export default function Counter() {
 
   return (
     <div>
+      <Link to={`/anime-list`}>Browse Anime</Link>
       <div
         css={{
           display: 'flex',

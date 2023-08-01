@@ -87,6 +87,7 @@ function CollectionDetail() {
 
   return (
     <>
+      <Link to={`/collection-list`}>Back to My Collections</Link>
       <h1>Collection Detail</h1>
       <div css={{ display: 'flex' }}>
         <TextField
