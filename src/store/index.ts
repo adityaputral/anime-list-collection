@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { applyMiddleware, configureStore } from '@reduxjs/toolkit';
 import {
   persistReducer,
   FLUSH,
@@ -8,6 +8,7 @@ import {
   PURGE,
   REGISTER
 } from 'redux-persist';
+import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 
 import storage from 'redux-persist/lib/storage';
 import animeCollectionsReducer from './animeCollections';
@@ -15,7 +16,8 @@ import animeCollectionsReducer from './animeCollections';
 const persistConfig = {
   key: 'root',
   version: 1,
-  storage
+  storage,
+  stateReconciler: hardSet
 };
 
 export default configureStore({

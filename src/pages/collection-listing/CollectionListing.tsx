@@ -134,7 +134,7 @@ export default function Counter() {
                       image={
                         collection.animeList && collection.animeList.length > 0
                           ? collection.animeList[0].bannerImage
-                          : ''
+                          : './default-collection-placehoder.png'
                       }
                       title={collection.name}
                     />

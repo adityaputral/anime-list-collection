@@ -29,7 +29,6 @@ const style = {
 function CollectionDetail() {
   const [collectionDetailData, setCollectionDetailData] =
     useState<IAnimeCollection>({});
-  const [editingCollection, setEditingCollection] = useState<boolean>(false);
 
   const [textValue, setTextValue] = useState<string>('');
   const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -69,7 +68,6 @@ function CollectionDetail() {
           name: textValue
         })
       );
-      setEditingCollection(false);
     }
   }
 
@@ -80,7 +78,6 @@ function CollectionDetail() {
   const [animeData, setAnimeData] = useState<IAnimeDetailData>({});
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   function deleteConfirmation(animeData: IAnimeDetailData): void {
-    console.log('sskodkow');
     setOpenDeleteModal(true);
     setAnimeData(animeData);
   }
