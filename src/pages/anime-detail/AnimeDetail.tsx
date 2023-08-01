@@ -15,6 +15,7 @@ import Button from '@mui/material/Button';
 
 import { css } from '@emotion/react';
 
+import { useSnackbar } from './../../context/SnackbarContext';
 import { useLoading } from './../../context/LoadingContext';
 import apiFetcher from '../../utilities/apiFetcher';
 import { addAnime, addCollection } from '../../store/animeCollections';
@@ -87,6 +88,8 @@ function AnimeDetail() {
       })
     );
     getCollectionBelonging();
+    setOpenSnackbar(true);
+    setMessage('Anime successfully added to the collection');
   }
 
   useEffect(() => {
@@ -113,6 +116,7 @@ function AnimeDetail() {
     return false;
   }
 
+  const { setOpenSnackbar, setMessage } = useSnackbar();
   const { setLoading } = useLoading();
 
   const [collectionTitle, setCollectionTitle] = useState<string>('');
@@ -238,6 +242,8 @@ function AnimeDetail() {
                         animeList: []
                       })
                     );
+                    setOpenSnackbar(true);
+                    setMessage('Collection added successfully');
                   }}
                 >
                   Add Collection
