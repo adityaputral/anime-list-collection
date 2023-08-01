@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import {
   IAnimeDetailData,
-  IAnimeCollectionsState,
   IAnimeCollection,
   IAnimeCollectionsInitialState
 } from './animeCollections';

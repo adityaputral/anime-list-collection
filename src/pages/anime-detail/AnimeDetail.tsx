@@ -98,7 +98,7 @@ function AnimeDetail() {
     }
 
     populateData();
-  }, []);
+  }, [collections]);
 
   const [checked, setChecked] = useState([0]);
 

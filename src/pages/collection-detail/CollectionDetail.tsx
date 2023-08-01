@@ -73,7 +73,7 @@ function CollectionDetail() {
 
   useEffect(() => {
     findCollectionDetail();
-  }, []);
+  }, [collections]);
 
   const [animeData, setAnimeData] = useState<IAnimeDetailData>({});
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
