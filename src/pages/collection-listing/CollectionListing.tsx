@@ -17,6 +17,8 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
+import { useSnackbar } from './../../context/SnackbarContext';
+
 import { useNavigate } from 'react-router-dom';
 import { removeCollection, editCollection } from '../../store/animeCollections';
 
@@ -78,6 +80,8 @@ export default function Counter() {
     p: 4,
     textAlign: 'center'
   };
+
+  const { setOpenSnackbar, setMessage } = useSnackbar();
 
   return (
     <div>
@@ -187,6 +191,8 @@ export default function Counter() {
                     name: collectionTitle.name
                   })
                 );
+                setOpenSnackbar(true);
+                setMessage('Collection updated successfully.');
                 setCollectionTitle({ name: '', id: '' });
                 handleClose();
               }}
@@ -215,6 +221,8 @@ export default function Counter() {
               dispatch(removeCollection(collectionTitle.id));
               setCollectionTitle({ name: '', id: '' });
               handleDeleteModalClose();
+              setOpenSnackbar(true);
+              setMessage('Collection deleted successfully.');
             }}
           >
             Yes

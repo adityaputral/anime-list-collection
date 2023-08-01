@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
+import { useSnackbar } from './../../context/SnackbarContext';
 import { addCollection } from '../../store/animeCollections';
 import {
   IAnimeDetailData,
@@ -41,6 +42,8 @@ function NavigationButton() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const { setOpenSnackbar, setMessage } = useSnackbar();
+
   return (
     <>
       <Button onClick={handleOpen}>Add Collection</Button>
@@ -71,6 +74,8 @@ function NavigationButton() {
                 );
                 setCollectionTitle('');
                 handleClose();
+                setOpenSnackbar(true);
+                setMessage('Collection added successfully.');
               }}
             >
               Add
