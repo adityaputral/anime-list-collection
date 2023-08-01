@@ -42,7 +42,6 @@ const Cards = ({ items, deleteFn }: ICardProps) => {
                       css={{
                         minHeight: '200px',
                         padding: '20px',
-                        backgroundColor: 'rgba(12, 15, 17, 0.3)',
                         display: 'flex',
                         flexDirection: 'column',
                         position: 'relative'

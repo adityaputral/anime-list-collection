@@ -189,9 +189,7 @@ function AnimeDetail() {
               ))
             : '-'}
           <br />
-          <List
-            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-          >
+          <List sx={{ width: '100%', maxWidth: 360 }}>
             {collections && collections.length > 0 ? (
               collections.map((collection: IAnimeCollection, i: number) => {
                 const labelId = `checkbox-list-label-${i}`;

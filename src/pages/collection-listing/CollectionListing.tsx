@@ -259,10 +259,11 @@ export default function Counter() {
       >
         <Box sx={style}>
           <Stack component="form" spacing={2} sx={{ textAlign: 'center' }}>
-            <p>
+            <Typography paragraph gutterBottom component="div">
+              {' '}
               Are you sure you want to remove{' '}
               <strong>{collectionTitle.name}</strong> from the collection?
-            </p>
+            </Typography>
           </Stack>
           <Button
             onClick={() => {

@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { editCollection, removeAnime } from '../../store/animeCollections';
 import Card from '../../components/Card/Card';
 import {
@@ -124,10 +125,11 @@ function CollectionDetail() {
       >
         <Box sx={style}>
           <Stack component="form" spacing={2} sx={{ textAlign: 'center' }}>
-            <p>
+            <Typography paragraph gutterBottom component="div">
+              {' '}
               Are you sure you want to remove
               <strong> {animeData.title?.english}</strong> from the collection?
-            </p>
+            </Typography>
           </Stack>
           <Button
             onClick={() => {
