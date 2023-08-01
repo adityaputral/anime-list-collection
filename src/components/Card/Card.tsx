@@ -83,7 +83,7 @@ const Cards = ({ items, deleteFn }: ICardProps) => {
                           sx={{ color: 'rgb(235, 0, 20)' }}
                           onClick={() => deleteFn(cardItem)}
                         >
-                          <DeleteIcon /> Delete
+                          <DeleteIcon /> Remove
                         </Button>
                       </Box>
                     )}

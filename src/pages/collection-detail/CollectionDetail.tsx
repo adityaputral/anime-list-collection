@@ -110,7 +110,7 @@ function CollectionDetail() {
         />
       ) : (
         <p>
-          No anime added yet. Browse list of anime you want to add
+          No anime added yet. Browse list of anime you want to add,
           <Link to={`/anime-list`}> here</Link>.
         </p>
       )}

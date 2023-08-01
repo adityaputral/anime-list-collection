@@ -46,7 +46,7 @@ function NavigationButton() {
 
   return (
     <>
-      <Button onClick={handleOpen}>Add Collection</Button>
+      <Button onClick={handleOpen}>Add a Collection</Button>
 
       <Modal
         open={open}
