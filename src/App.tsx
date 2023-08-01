@@ -1,6 +1,5 @@
 import './App.css';
 import { RouterProvider } from 'react-router-dom';
-
 import { router } from './routes/index.js';
 
 import { LoadingProvider } from './context/LoadingContext';
