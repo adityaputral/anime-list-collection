@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import { editCollection, removeAnime } from '../../store/animeCollections';
 import Card from '../../components/Card/Card';
 import {
@@ -10,6 +13,18 @@ import {
   IAnimeCollectionsState,
   IAnimeCollection
 } from './../../store/animeCollections';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+  textAlign: 'center'
+};
 
 function CollectionDetail() {
   const [collectionDetailData, setCollectionDetailData] =
@@ -61,6 +76,18 @@ function CollectionDetail() {
   useEffect(() => {
     findCollectionDetail();
   }, []);
+
+  const [animeData, setAnimeData] = useState<IAnimeDetailData>({});
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  function deleteConfirmation(animeData: IAnimeDetailData): void {
+    console.log('sskodkow');
+    setOpenDeleteModal(true);
+    setAnimeData(animeData);
+  }
+  function handleDeleteModalClose(): void {
+    setOpenDeleteModal(false);
+  }
+
   return (
     <>
       <h1>Collection Detail</h1>
@@ -82,11 +109,46 @@ function CollectionDetail() {
       collectionDetailData.animeList.length > 0 ? (
         <Card
           items={collectionDetailData.animeList}
-          deleteFn={removeAnimeFromCollection}
+          deleteFn={deleteConfirmation}
         />
       ) : (
         'No anime added yet.'
       )}
+
+      <Modal
+        open={openDeleteModal}
+        onClose={handleDeleteModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Stack component="form" spacing={2} sx={{ textAlign: 'center' }}>
+            <p>
+              Are you sure you want to remove
+              <strong> {animeData.title?.english}</strong> from the collection?
+            </p>
+          </Stack>
+          <Button
+            onClick={() => {
+              removeAnimeFromCollection(animeData);
+              setAnimeData({});
+              handleDeleteModalClose();
+            }}
+          >
+            Yes
+          </Button>
+
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              handleDeleteModalClose();
+            }}
+          >
+            No
+          </Button>
+        </Box>
+      </Modal>
     </>
   );
 }

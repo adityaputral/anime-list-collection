@@ -25,7 +25,7 @@ export const animeCollectionSlice = createSlice({
     removeCollection: (
       state: IAnimeCollectionsInitialState,
       action: {
-        payload: string;
+        payload: string | number;
       }
     ) => {
       const payload = action.payload;

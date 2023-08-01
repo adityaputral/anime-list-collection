@@ -79,9 +79,11 @@ const Cards = ({ items, deleteFn }: ICardProps) => {
                         aria-label="delete"
                         title="Delete"
                       >
-                        <Button sx={{ color: 'rgb(235, 0, 20)' }}>
-                          <DeleteIcon onClick={() => deleteFn(cardItem)} />{' '}
-                          Delete
+                        <Button
+                          sx={{ color: 'rgb(235, 0, 20)' }}
+                          onClick={() => deleteFn(cardItem)}
+                        >
+                          <DeleteIcon /> Delete
                         </Button>
                       </Box>
                     )}
