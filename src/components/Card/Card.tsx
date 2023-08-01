@@ -67,7 +67,7 @@ const Cards = ({ items, deleteFn }: ICardProps) => {
                         sx={{
                           position: 'absolute',
                           right: '20px',
-                          bottom: '20px',
+                          bottom: '10px',
                           color: 'rgb(235, 0, 20)',
                           ':before, :after': {
                             content: '""',
