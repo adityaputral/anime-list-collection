@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -109,7 +109,10 @@ function CollectionDetail() {
           deleteFn={deleteConfirmation}
         />
       ) : (
-        'No anime added yet.'
+        <p>
+          No anime added yet. Browse list of anime you want to add
+          <Link to={`/anime-list`}> here</Link>.
+        </p>
       )}
 
       <Modal
