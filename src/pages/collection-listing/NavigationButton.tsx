@@ -10,11 +10,7 @@ import Stack from '@mui/material/Stack';
 
 import { useSnackbar } from './../../context/SnackbarContext';
 import { addCollection } from '../../store/animeCollections';
-import {
-  IAnimeDetailData,
-  IAnimeCollectionsState,
-  IAnimeCollection
-} from './../../store/animeCollections';
+import { IAnimeCollectionsState } from './../../store/animeCollections';
 
 const style = {
   position: 'absolute',

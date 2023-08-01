@@ -26,7 +26,6 @@ import { removeCollection, editCollection } from '../../store/animeCollections';
 import CollectionCard from './../../components/Card/CollectionCard';
 
 import {
-  IAnimeDetailData,
   IAnimeCollectionsState,
   IAnimeCollection
 } from './../../store/animeCollections';
