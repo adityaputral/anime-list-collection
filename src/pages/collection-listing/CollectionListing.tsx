@@ -46,6 +46,8 @@ export default function Counter() {
 
   function onTitleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     setCollectionTitle({ name: e.target.value, id: collectionTitle.id });
+    validateUniqueness(e.target.value, collectionTitle.id);
+    validateSpecialCharacter(e.target.value);
   }
 
   const [open, setOpen] = useState(false);
@@ -55,6 +57,8 @@ export default function Counter() {
   }
   function handleClose(): void {
     setOpen(false);
+    setNameUnique(true);
+    setContainSpecialCharacter(false);
   }
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -82,6 +86,49 @@ export default function Counter() {
   };
 
   const { setOpenSnackbar, setMessage } = useSnackbar();
+
+  const [nameUnique, setNameUnique] = useState<boolean>(true);
+  function validateUniqueness(
+    collectionName: string,
+    collectionId: string | number
+  ): void {
+    if (
+      collections &&
+      collections.length > 0 &&
+      collections.find(
+        (collection: IAnimeCollection) =>
+          collection.name == collectionName && collection.id !== collectionId
+      )
+    )
+      setNameUnique(false);
+    else setNameUnique(true);
+  }
+
+  const [containSpecialCharacter, setContainSpecialCharacter] =
+    useState<boolean>(false);
+  function validateSpecialCharacter(collectionName: string): void {
+    const pattern = /^[\w&]+$/;
+    const isValid = pattern.test(collectionName);
+    console.log(isValid);
+
+    if (isValid) setContainSpecialCharacter(false);
+    else setContainSpecialCharacter(true);
+  }
+
+  function updateTitle() {
+    if (nameUnique && !containSpecialCharacter) {
+      dispatch(
+        editCollection({
+          collectionId: collectionTitle.id,
+          name: collectionTitle.name
+        })
+      );
+      setOpenSnackbar(true);
+      setMessage('Collection updated successfully.');
+      setCollectionTitle({ name: '', id: '' });
+      handleClose();
+    }
+  }
 
   return (
     <div>
@@ -177,6 +224,14 @@ export default function Counter() {
         <Box sx={style}>
           <Stack component="form" spacing={2}>
             <TextField
+              error={nameUnique && !containSpecialCharacter ? false : true}
+              helperText={
+                nameUnique
+                  ? !containSpecialCharacter
+                    ? ''
+                    : 'Collection name should not have contain special character.'
+                  : 'Collection with the same name already exist.'
+              }
               label="Collection name"
               fullWidth
               onChange={onTitleChange}
@@ -185,16 +240,7 @@ export default function Counter() {
 
             <Button
               onClick={() => {
-                dispatch(
-                  editCollection({
-                    collectionId: collectionTitle.id,
-                    name: collectionTitle.name
-                  })
-                );
-                setOpenSnackbar(true);
-                setMessage('Collection updated successfully.');
-                setCollectionTitle({ name: '', id: '' });
-                handleClose();
+                updateTitle();
               }}
             >
               Add
@@ -239,65 +285,6 @@ export default function Counter() {
           </Button>
         </Box>
       </Modal>
-      {/* <div>
-        <button
-          aria-label="Increment value"
-          onClick={() =>
-            dispatch(
-              addCollection({
-                id: 'col1',
-                name: 'collection1',
-                animeList: []
-              })
-            )
-          }
-        >
-          Add Collection
-        </button>
-        <button
-          aria-label="Increment value"
-          onClick={() => dispatch(removeCollection('col1'))}
-        >
-          Remove Collection
-        </button>
-
-        <button
-          aria-label="Increment value"
-          onClick={() =>
-            dispatch(
-              editCollection({
-                collectionId: 'col1',
-                name: 'collection 1 edited'
-              })
-            )
-          }
-        >
-          Edit Collection
-        </button>
-
-        <button
-          aria-label="Add Anime"
-          onClick={() =>
-            dispatch(
-              addAnime({
-                animeDetail: { id: '2', name: 'Anime 2' },
-                collectionId: 'col1'
-              })
-            )
-          }
-        >
-          Add Anime
-        </button>
-
-        <button
-          aria-label="Remove Anime"
-          onClick={() =>
-            dispatch(removeAnime({ animeId: '2', collectionId: 'col1' }))
-          }
-        >
-          Remove Anime
-        </button>
-      </div> */}
     </div>
   );
 }
